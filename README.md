@@ -184,3 +184,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Link to Github
     https://github.com/maxadaniels/Capstone-Project.git
+
+## Link to App 
+ http://www.notes-master-app.co.za
