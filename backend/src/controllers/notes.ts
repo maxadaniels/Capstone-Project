@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import NoteModel from "../models/note";
 import { assertIsDefined } from "../util/assertIsDefined";
 
+// Get all notes for the authenticated user
 export const getNotes: RequestHandler = async (req, res, next) => {
     const authenticatedUserId = req.session.userId;
 
@@ -17,6 +18,7 @@ export const getNotes: RequestHandler = async (req, res, next) => {
     }
 };
 
+// Get a specific note by its ID for the authenticated user
 export const getNote: RequestHandler = async (req, res, next) => {
     const noteId = req.params.noteId;
     const authenticatedUserId = req.session.userId;
@@ -44,6 +46,7 @@ export const getNote: RequestHandler = async (req, res, next) => {
     }
 };
 
+// Create a new note for the authenticated user
 interface CreateNoteBody {
     title?: string,
     text?: string,
@@ -73,6 +76,7 @@ export const createNote: RequestHandler<unknown, unknown, CreateNoteBody, unknow
     }
 };
 
+// Update an existing note for the authenticated user
 interface UpdateNoteParams {
     noteId: string,
 }
@@ -120,6 +124,7 @@ export const updateNote: RequestHandler<UpdateNoteParams, unknown, UpdateNoteBod
     }
 };
 
+// Delete a note for the authenticated user
 export const deleteNote: RequestHandler = async (req, res, next) => {
     const noteId = req.params.noteId;
     const authenticatedUserId = req.session.userId;
