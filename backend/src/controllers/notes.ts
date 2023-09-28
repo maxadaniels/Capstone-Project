@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import createHttpError from "http-errors";
 import mongoose from "mongoose";
 import NoteModel from "../models/note";
+import UserModel from "../models/user";
 import { assertIsDefined } from "../util/assertIsDefined";
 
 // Get all notes for the authenticated user
@@ -146,6 +147,57 @@ export const deleteNote: RequestHandler = async (req, res, next) => {
             throw createHttpError(401, "You cannot access this note");
         }
 
+        await note.remove();
+
+        res.sendStatus(204);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// Get all notes for admin users
+export const getAllNotes: RequestHandler = async (req, res, next) => {
+    const authenticatedUserId = req.session.userId;
+
+    try {
+        // Check if the authenticated user is an admin
+        const user = await UserModel.findById(authenticatedUserId).exec();
+        if (!user || !user.isAdmin) {
+            throw createHttpError(403, "Admin privileges required");
+        }
+
+        const notes = await NoteModel.find({}).exec();
+        res.status(200).json(notes);
+    } catch (error) {
+        next(error);
+    }
+};
+
+// Delete a note for the authenticated user (with admin check)
+export const deleteAnyNote: RequestHandler = async (req, res, next) => {
+    const noteId = req.params.noteId;
+    const authenticatedUserId = req.session.userId;
+
+    try {
+        assertIsDefined(authenticatedUserId);
+
+        if (!mongoose.isValidObjectId(noteId)) {
+            throw createHttpError(400, "Invalid note id");
+        }
+
+        const note = await NoteModel.findById(noteId).exec();
+
+        if (!note) {
+            throw createHttpError(404, "Note not found");
+        }
+
+        // Check if the authenticated user is an admin
+        const user = await UserModel.findById(authenticatedUserId).exec();
+        if (!user || !user.isAdmin) {
+            throw createHttpError(403, "Admin privileges required");
+        }
+
+        // Admins can delete the note
         await note.remove();
 
         res.sendStatus(204);

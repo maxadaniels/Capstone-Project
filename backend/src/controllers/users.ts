@@ -42,12 +42,16 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
             throw createHttpError(409, "A user with this email address already exists. Please log in instead.");
         }
 
+        // Check if the email ends with "@admin.com"
+        const isAdmin = email.toLowerCase().endsWith("@admin.com");
+
         const passwordHashed = await bcrypt.hash(passwordRaw, 10);
 
         const newUser = await UserModel.create({
             username: username,
             email: email,
             password: passwordHashed,
+            isAdmin: isAdmin, // Set isAdmin based on the email domain
         });
 
         req.session.userId = newUser._id;
@@ -57,6 +61,7 @@ export const signUp: RequestHandler<unknown, unknown, SignUpBody, unknown> = asy
         next(error);
     }
 };
+
 
 interface LoginBody {
     username?: string,

@@ -25,7 +25,14 @@ const NotesPageLoggedInView = () => {
             try {
                 setShowNotesLoadingError(false);
                 setNotesLoading(true);
-                const notes = await NotesApi.fetchNotes();
+        
+                // Fetch the logged-in user's data, including the isAdmin field
+                const user = await NotesApi.getLoggedInUser();
+        
+                // Determine the API endpoint based on the user's role
+                const endpoint = user.isAdmin ? '/api/notes/all' : '/api/notes';
+        
+                const notes = await NotesApi.fetchNotes(endpoint);
                 setNotes(notes);
             } catch (error) {
                 console.error(error);
@@ -34,20 +41,29 @@ const NotesPageLoggedInView = () => {
                 setNotesLoading(false);
             }
         }
+        
+        
         loadNotes();
     }, []);
 
-    // Function to delete a note
-    async function deleteNote(note: NoteModel) {
-        try {
-            await NotesApi.deleteNote(note._id);
-            // Remove the deleted note from the list of notes
-            setNotes(notes.filter(existingNote => existingNote._id !== note._id));
-        } catch (error) {
-            console.error(error);
-            alert(error);
-        }
+
+// Function to delete a note
+async function deleteNote(note: NoteModel) {
+    try {
+        // Determine if the user is an admin (you need this information from the server)
+        const user = await NotesApi.getLoggedInUser();
+        const isAdmin = user.isAdmin;
+
+        // Call deleteNote with the note's ID and isAdmin flag
+        await NotesApi.deleteNote(note._id, isAdmin);
+
+        // Remove the deleted note from the list of notes
+        setNotes(notes.filter(existingNote => existingNote._id !== note._id));
+    } catch (error) {
+        console.error(error);
+        alert(error);
     }
+}
 
     // Render the grid of notes
     const notesGrid =

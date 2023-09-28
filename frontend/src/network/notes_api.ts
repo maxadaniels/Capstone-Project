@@ -69,8 +69,8 @@ export async function logout() {
 }
 
 // Function to fetch notes
-export async function fetchNotes(): Promise<Note[]> {
-    const response = await fetchData("/api/notes", { method: "GET" });
+export async function fetchNotes(endpoint = "/api/notes"): Promise<Note[]> {
+    const response = await fetchData(endpoint, { method: "GET" });
     return response.json();
 }
 
@@ -105,6 +105,10 @@ export async function updateNote(noteId: string, note: NoteInput): Promise<Note>
 }
 
 // Function to delete a note
-export async function deleteNote(noteId: string) {
-    await fetchData("/api/notes/" + noteId, { method: "DELETE" });
+export async function deleteNote(noteId: string, isAdmin: boolean) {
+    // Determine the API endpoint based on the user's role
+    const endpoint = isAdmin ? `/api/notes/admin/${noteId}` : `/api/notes/${noteId}`;
+    
+    await fetchData(endpoint, { method: "DELETE" });
 }
+
