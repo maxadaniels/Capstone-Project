@@ -186,4 +186,8 @@ To learn React, check out the [React documentation](https://reactjs.org/).
     https://github.com/maxadaniels/Capstone-Project.git
 
 ## Link to App 
- http://www.notes-master-app.co.za
+ http://www.notes-master-app.co.za\
+
+## Admin Control
+Register an admin by ending email with @admin.com
+Admins have access to all notes and can delete any note 
