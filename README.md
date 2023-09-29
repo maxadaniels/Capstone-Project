@@ -191,3 +191,5 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ## Admin Control
 Register an admin by ending email with @admin.com
 Admins have access to all notes and can delete any note 
+
+## Created appropraite unit test and snapshot test
