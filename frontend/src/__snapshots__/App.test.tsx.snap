@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App component matches snapshot 1`] = `
+<div>
+  <div>
+    <nav
+      class="navbar navbar-expand-sm navbar-dark bg-primary sticky-top"
+    >
+      <div
+        class="container"
+      >
+        <a
+          class="navbar-brand"
+          href="/"
+        >
+          Notes Master
+        </a>
+        <button
+          aria-controls="main-navbar"
+          aria-label="Toggle navigation"
+          class="navbar-toggler collapsed"
+          type="button"
+        >
+          <span
+            class="navbar-toggler-icon"
+          />
+        </button>
+        <div
+          class="navbar-collapse collapse"
+          id="main-navbar"
+        >
+          <div
+            class="navbar-nav"
+          >
+            <a
+              class="nav-link"
+              href="/privacy"
+            >
+              Privacy
+            </a>
+          </div>
+          <div
+            class="ms-auto navbar-nav"
+          >
+            <button
+              class="btn btn-primary"
+              type="button"
+            >
+              Sign Up
+            </button>
+            <button
+              class="btn btn-primary"
+              type="button"
+            >
+              Log In
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div
+      class="pageContainer container"
+    >
+      <div
+        class="notesPage container"
+      >
+        <p>
+          Please login to see your notes
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
